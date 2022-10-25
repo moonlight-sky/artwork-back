@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.work.artwork.dao.ArtDao">
+    <select id="getAllArt" resultType="com.work.artwork.bean.Art">
+        SELECT * FROM art
+            <if test="title != null " >
+                WHERE title like #{title}
+            </if>
+            LIMIT #{pageStart},#{pageSize}
+    </select>
+
+    <select id="getArtCounts" resultType="java.lang.Integer">
+        SELECT count(*) FROM art
+            <if test="title != null">
+                WHERE title like #{title}
+            </if>
+    </select>
+
+    <insert id="addArt">
+        INSERT INTO art
+            (cat_id,title,content,state,add_time,zan,url)
+            VALUE
+            (#{cat_id},#{title},#{content},#{state},#{add_time},#{zan},#{url})
+    </insert>
+
+    <delete id="deleteArt">
+        DELETE FROM art WHERE id = #{id}
+    </delete>
+
+    <select id="getArtList" resultType="com.work.artwork.bean.Art">
+        SELECT * FROM art
+    </select>
+
+    <update id="likeIt">
+        UPDATE art SET zan = #{zan} WHERE id = #{id}
+    </update>
+
+    <select id="getArtById" resultType="com.work.artwork.bean.Art">
+        SELECT * FROM art WHERE id = #{id}
+    </select>
+
+</mapper>

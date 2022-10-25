@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.work.artwork.dao.CollectionMapper">
+    <resultMap id="collectMap" type="com.work.artwork.bean.Collection">
+        <id column="id" property="id"/>
+        <result column="person_id" property="person_id"/>
+        <result column="art_id" property="art_id"/>
+        <result column="atitle" property="atitle"/>
+    </resultMap>
+    <select id="allcol" resultType="com.work.artwork.bean.Collection">
+        select * from collection
+    </select>
+
+    <select id="getColById" resultMap="collectMap">
+        SELECT c.*,a.id as art_id ,a.title as atitle
+        FROM collection c,art a,person p WHERE c.art_id = a.id And c.person_id = p.id
+                                             AND person_id= #{person_id}
+    </select>
+
+    <insert id="collect">
+        INSERT INTO collection
+            (person_id,art_id)
+            VALUE
+            (#{person_id},#{art_id})
+    </insert>
+
+    <delete id="deleteCollection">
+        DELETE FROM collection WHERE id = #{id}
+    </delete>
+
+</mapper>

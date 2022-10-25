@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.work.artwork.dao.CommentMapper">
+    <resultMap id="commentMap" type="com.work.artwork.bean.Comment">
+        <id column="id" property="id"/>
+        <result column="pid" property="pid"/>
+        <result column="pname" property="pname"/>
+        <result column="aid" property="aid"/>
+        <result column="atitle" property="atitle"/>
+        <result column="title" property="title"/>
+        <result column="add_time" property="add_time"/>
+    </resultMap>
+    <select id="allCom" resultMap="commentMap">
+        SELECT c.*,p.id as pid,p.username as pname,.a.id as aid ,a.title as atitle
+        FROM comment c,art a,person p WHERE c.aid = a.id And c.pid = p.id
+    </select>
+
+    <insert id="addCom">
+        INSERT INTO comment
+            (pid,aid,title)
+            VALUE
+            (#{pid},#{aid},#{title})
+    </insert>
+
+    <delete id="deleteComment">
+        DELETE FROM comment WHERE id = #{id}
+    </delete>
+
+    <select id="getComById" resultType="com.work.artwork.bean.Comment">
+        SELECT * FROM comment WHERE id = #{id}
+    </select>
+
+</mapper>

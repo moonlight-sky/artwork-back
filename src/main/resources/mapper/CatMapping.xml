@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.work.artwork.dao.CatDao">
+    <select id="getAllCat" resultType="com.work.artwork.bean.Category">
+        SELECT * FROM cat
+            <if test="name != null " >
+                WHERE name like #{name}
+            </if>
+            LIMIT #{pageStart},#{pageSize}
+    </select>
+
+    <select id="getCatCounts" resultType="java.lang.Integer">
+        SELECT count(*) FROM cat
+            <if test="name != null">
+                WHERE name like #{name}
+            </if>
+    </select>
+
+    <insert id="addCat">
+        INSERT INTO cat
+            (name,state)
+            VALUE
+            (#{name},#{state})
+    </insert>
+
+    <update id="updateState">
+        UPDATE cat SET state = #{state} WHERE id = #{id}
+    </update>
+
+    <delete id="deleteCat">
+        DELETE FROM cat WHERE id = #{id}
+    </delete>
+
+    <select id="getCatList" resultType="com.work.artwork.bean.Category">
+        SELECT * FROM cat WHERE state = true
+    </select>
+</mapper>

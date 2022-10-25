@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.work.artwork.dao.PersonDao">
+
+    <select id="userlogin" resultType="com.work.artwork.bean.Person">
+        SELECT * FROM person WHERE username = #{username} AND password = #{password} AND state = 1;
+    </select>
+
+    <insert id="register">
+        INSERT INTO person
+            (username,email,password,add_time,state)
+            VALUE
+            (#{username},#{email},#{password},#{add_time},#{state})
+    </insert>
+
+    <select id="getAllPerson" resultType="com.work.artwork.bean.Person">
+        SELECT * FROM person
+        <if test="username != null " >
+            WHERE username like #{username}
+        </if>
+        LIMIT #{pageStart},#{pageSize}
+    </select>
+
+    <select id="getPersonCounts" resultType="java.lang.Integer">
+        SELECT count(*) FROM person
+        <if test="username != null">
+            WHERE username like #{username}
+        </if>
+    </select>
+
+    <update id="updateState">
+        UPDATE person SET state = #{state} WHERE id = #{id}
+    </update>
+
+    <update id="updatePerson">
+        UPDATE person SET password = '123456' WHERE id = #{id}
+    </update>
+
+    <delete id="deletePerson">
+        DELETE FROM person WHERE id = #{id}
+    </delete>
+
+    <select id="getPersonById" resultType="com.work.artwork.bean.Person">
+        SELECT * FROM person WHERE id = #{id}
+    </select>
+
+    <update id="editPerson">
+        UPDATE person SET username = #{username} , password = #{password} ,
+                        email = #{email} WHERE id = #{id}
+    </update>
+
+</mapper>
